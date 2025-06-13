@@ -3,293 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stoic Quotes</title>
+    <title>Notion Quotes Widget</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;500&family=Noto+Serif:wght@200;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            min-height: 100vh;
-            width: 100vw;
-            background: #fafafa;
-            font-family: 'Noto Sans', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+    display: flex;
+}
 
-        .quote-container {
-            padding: 2rem;
-            width: 90%;
-            max-width: 680px;
-            min-height: 200px;
-            max-height: 400px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            position: relative;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-            overflow-y: auto;
-            display: flex;
-            align-items: center;
-        }
+.sidebar {
+    width: 320px;
+    padding: 40px 32px;
+    position: fixed;
+    height: 100vh;
+    box-sizing: border-box;
+    background: #f7f7f5;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
 
-        .quote-container:hover {
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
+.sidebar-content {
+    flex-grow: 1;
+}
 
-        .quote-content {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+.sidebar h1 {
+    font-size: 1.25rem;
+    color: #000;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+}
 
-        .quote-text {
-            font-family: 'Noto Serif', serif;
-            /* Smaller base size and more aggressive scaling for longer quotes */
-            font-size: clamp(1rem, 3vw, 1.6rem);
-            font-weight: 500;
-            color: #2c2c2c;
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-            line-height: 1.4;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.6s ease forwards;
-        }
+.sidebar p {
+    color: #666;
+    margin: 0 0 24px 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
 
-        .quote-book {
-            font-family: 'Noto Sans', sans-serif;
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 300;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.1em;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.6s ease 0.1s forwards;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
+.instructions {
+    margin-top: 24px;
+    font-size: 0.9rem;
+    color: #666;
+}
 
-        .book-numeral {
-            font-family: 'Noto Serif', serif;
-            font-weight: 500;
-        }
+.instructions h2 {
+    font-size: 0.9rem;
+    color: #000;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+}
 
-        /* Optional: Only show contemplation for shorter quotes */
-        .quote-contemplation {
-            display: none; /* Hidden by default */
-            font-family: 'Noto Sans', sans-serif;
-            color: #444;
-            font-size: 0.875rem;
-            font-weight: 300;
-            letter-spacing: 0.02em;
-            line-height: 1.5;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.6s ease 0.2s forwards;
-            padding: 0 1rem;
-        }
+.instructions ol {
+    margin: 0;
+    padding-left: 16px;
+}
 
-        /* Show contemplation only for quotes shorter than 100 characters */
-        .short-quote .quote-contemplation {
-            display: block;
-        }
+.instructions li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.credits {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: auto;
+    padding-top: 24px;
+}
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
+.credits-name {
+    margin-bottom: 8px;
+}
 
-        .fade-in { animation: fadeIn 0.6s ease forwards; }
-        .fade-out { animation: fadeOut 0.3s ease forwards; }
+.credits-links {
+    display: flex;
+    gap: 16px;
+}
 
-        @media (max-width: 480px) {
-            .quote-container {
-                padding: 1.5rem;
-                max-height: 450px;
-            }
-            
-            .quote-text {
-                font-size: clamp(0.875rem, 2.5vw, 1.4rem);
-                margin-bottom: 0.75rem;
-            }
-            
-            .quote-book {
-                margin-bottom: 0.5rem;
-            }
-        }
+.credits-links a {
+    color: #666;
+    text-decoration: none;
+}
+
+.credits-links a:hover {
+    color: #000;
+}
+
+.main-content {
+    margin-left: 320px;
+    padding: 40px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    background: #ffffff;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.embed-container {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: height 0.3s ease;
+}
+
+/* Fixed heights for each container */
+.embed-container[data-type="kototama"] { height: 180px; }
+.embed-container[data-type="atomic-habits"] { height: 250px; }
+.embed-container[data-type="stoic"] { height: 290px; }
+.embed-container[data-type="tao"] { height: 330px; }
+.embed-container[data-type="first"] { height: 430px; }
+.embed-container[data-type="koan"] { height: 390px; }
+.embed-container[data-type="bias"] { height: 530px; }
+.embed-container[data-type="warhammer"] { height: 290px; }
+
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 0.9rem;
+    color: #000;
+    font-weight: 500;
+    margin: 0;
+}
+
+.copy-button {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.8rem;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.copy-button:hover {
+    color: #000;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 32px;
+    }
+
+    /* Fixed heights for each container */
+    .embed-container[data-type="kototama"] { height: 180px; }
+    .embed-container[data-type="atomic-habits"] { height: 250px; }
+    .embed-container[data-type="stoic"] { height: 290px; }
+    .embed-container[data-type="tao"] { height: 330px; }
+    .embed-container[data-type="first"] { height: 430px; }
+    .embed-container[data-type="koan"] { height: 390px; }
+    .embed-container[data-type="bias"] { height: 530px; }
+    .embed-container[data-type="warhammer"] { height: 290px; }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 24px;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 24px;
+    }
+
+    .instructions {
+        margin-top: 16px;
+    }
+
+    .credits {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #eee;
+    }
+
+    .embed-container[data-type="kototama"] { height: 240px; }
+    .embed-container[data-type="atomic-habits"] { height: 250px; }
+    .embed-container[data-type="stoic"] { height: 250px; }
+    .embed-container[data-type="tao"] { height: 330px; }
+    .embed-container[data-type="first"] { height: 525px; }
+    .embed-container[data-type="koan"] { height: 405px; }
+    .embed-container[data-type="bias"] { height: 550px; }
+    .embed-container[data-type="warhammer"] { height: 250px; }
+
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 20px 16px;
+    }
+
+    .main-content {
+        padding: 20px 16px;
+    }
+
+    .grid {
+        gap: 32px;
+    }
+
+    .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .copy-button {
+        padding: 8px 0;
+    }
+
+    .toast {
+        left: 16px;
+        right: 16px;
+        transform: none;
+        text-align: center;
+    }
+
+    .embed-container[data-type="kototama"] { height: 100px; }
+    .embed-container[data-type="atomic-habits"] { height: 80px; }
+    .embed-container[data-type="stoic"] { height: 110px; }
+    .embed-container[data-type="tao"] { height: 130px; }
+    .embed-container[data-type="first"] { height: 125px; }
+    .embed-container[data-type="koan"] { height: 105px; }
+    .embed-container[data-type="bias"] { height: 100px; }
+    .embed-container[data-type="warhammer"] { height: 110px; }
+}
     </style>
 </head>
 <body>
-    <div class="quote-container" onclick="nextQuote()" title="Click for another quote">
-        <div class="quote-content">
-            <p class="quote-text" id="quote-text"></p>
-            <p class="quote-book" id="quote-book">
-                <span class="book-numeral"></span>
-            </p>
-            <p class="quote-contemplation" id="quote-contemplation"></p>
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <h1>Notion Quote Widgets</h1>
+            <p>A collection of minimalist, elegant quote generators built specifically for embedding in Notion pages.</p>
+            
+            <div class="instructions">
+                <h2>How to use</h2>
+                <ol>
+                    <li>Choose your preferred quote collection from the options on the right</li>
+                    <li>Click "Copy embed link" below the preview</li>
+                    <li>In Notion, paste the link and choose "Embed" from the formatting options</li>
+                    <li>If necessary, adjust the height of the embed to fit the quote card</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="credits">
+            <div class="credits-name">By Daniel Hilse</div>
+            <div class="credits-links">
+                <a href="https://github.com/ossiyama">Github</a>
+                <a href="https://twitter.com/ossiyama">Follow on X</a>
+            </div>
         </div>
     </div>
 
+    <div class="main-content">
+        <div class="grid">
+            <div class="card">
+                <div class="embed-container" data-type="kototama">
+                    <iframe src="kototama/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Kototama</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/kototama">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="atomic-habits">
+                    <iframe src="atomic-habits/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Atomic Habits</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/atomic-habits">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="stoic">
+                    <iframe src="stoic/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Marcus Aurelius</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/stoic">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="tao">
+                    <iframe src="tao/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Tao Te Ching</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/tao">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="first">
+                    <iframe src="first/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">First Principles</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/first">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="koan">
+                    <iframe src="koan/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Zen Koans</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/koan">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="bias">
+                    <iframe src="bias/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Cognitive Biases</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/bias">Copy embed link</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="embed-container" data-type="warhammer">
+                    <iframe src="warhammer/" loading="lazy"></iframe>
+                </div>
+                <div class="card-footer">
+                    <h2 class="card-title">Warhammer</h2>
+                    <button class="copy-button" data-url="https://ossiyama.github.io/notion-quotes/warhammer">Copy embed link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">URL copied to clipboard</div>
 
     <script>
-        // Quotes Data
-        const quotes = [
-  {
-    quote: "When you wake up in the morning, tell yourself: The people I deal with today will be meddling, ungrateful, arrogant, dishonest, jealous, and surly. They are like this because they can't tell good from evil.",
-    book: "Book II",
-    contemplation: "How might understanding others' limitations help you respond to them with more patience?"
-  },
-  {
-    quote: "You have power over your mind - not outside events. Realize this, and you will find strength.",
-    book: "Book VI",
-    contemplation: "What situations in your life right now require you to focus on what you can control?"
-  },
-  {
-    quote: "Accept the things to which fate binds you, and love the people with whom fate brings you together, but do so with all your heart.",
-    book: "Book VI",
-    contemplation: "How can you more fully embrace your current circumstances and relationships?"
-  },
-  {
-    quote: "The best revenge is to be unlike him who performed the injury.",
-    book: "Book VI",
-    contemplation: "How might you respond to negativity today with virtue rather than vengeance?"
-  },
-  {
-    quote: "Waste no more time arguing about what a good man should be. Be one.",
-    book: "Book X",
-    contemplation: "What single action could you take right now to embody your principles?"
-  },
-  {
-    quote: "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
-    book: "Book VII",
-    contemplation: "What simple pleasures in your life bring you genuine contentment?"
-  },
-  {
-    quote: "If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment.",
-    book: "Book VIII",
-    contemplation: "Which of your current concerns might be reframed for peace of mind?"
-  },
-  {
-    quote: "When we cease from activity, or follow a thought to its conclusion, it is a kind of death. Begin doing what needs to be done; the rest will follow.",
-    book: "Book IX",
-    contemplation: "What important task have you been postponing that you could start today?"
-  },
-  {
-    quote: "Look within. Within is the fountain of good, and it will ever bubble up, if thou wilt ever dig.",
-    book: "Book VII",
-    contemplation: "How might you better tap into your internal resources for guidance?"
-  },
-  {
-    quote: "Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.",
-    book: "Book XII",
-    contemplation: "Which of your strongly held views might benefit from examining other perspectives?"
-  },
-  {
-    quote: "Do every act of your life as though it were the last act of your life.",
-    book: "Book II",
-    contemplation: "How would you approach today differently if you treated each action as significant?"
-  },
-  {
-    quote: "The happiness of your life depends upon the quality of your thoughts.",
-    book: "Book IV",
-    contemplation: "What thought patterns could you improve to enhance your daily experience?"
-  },
-  {
-    quote: "The first rule is to keep an untroubled spirit. The second is to look things in the face and know them for what they are.",
-    book: "Book VIII",
-    contemplation: "What situation in your life needs to be seen with clearer eyes?"
-  },
-  {
-    quote: "Remember that very little is needed to make a happy life.",
-    book: "Book VII",
-    contemplation: "What unnecessary complications could you remove from your life?"
-  },
-  {
-    quote: "The soul becomes dyed with the color of its thoughts.",
-    book: "Book V",
-    contemplation: "How do your habitual thoughts affect your character and actions?"
-  }
-];
-
-
-let currentQuoteIndex = -1;
-
-function setRandomQuote() {
-    let newIndex;
-    do {
-        newIndex = Math.floor(Math.random() * quotes.length);
-    } while (newIndex === currentQuoteIndex && quotes.length > 1);
-    
-    currentQuoteIndex = newIndex;
-    displayQuote(quotes[currentQuoteIndex]);
-}
-
-function displayQuote(quoteObj) {
-    const container = document.querySelector('.quote-container');
-    const quoteText = document.getElementById('quote-text');
-    const quoteBook = document.getElementById('quote-book');
-    const contemplation = document.getElementById('quote-contemplation');
-
-    // Add fade-out classes
-    [quoteText, quoteBook, contemplation].forEach(el => {
-        el.classList.remove('fade-in');
-        el.classList.add('fade-out');
-    });
-
-    setTimeout(() => {
-        // Update content
-        quoteText.textContent = `"${quoteObj.quote}"`;
-        quoteBook.innerHTML = `
-            <span class="book-numeral">${quoteObj.book}</span>
-        `;
-        contemplation.textContent = `For contemplation: ${quoteObj.contemplation}`;
-
-        // Show/hide contemplation based on quote length
-        container.classList.toggle('short-quote', quoteObj.quote.length < 100);
-
-        // Remove fade-out and add fade-in
-        [quoteText, quoteBook, contemplation].forEach(el => {
-            el.classList.remove('fade-out');
-            el.classList.add('fade-in');
+        document.querySelectorAll('.copy-button').forEach(button => {
+            button.addEventListener('click', async () => {
+                const url = button.dataset.url;
+                try {
+                    await navigator.clipboard.writeText(url);
+                    const toast = document.getElementById('toast');
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 2000);
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                }
+            });
         });
-
-        // Adjust font size for longer quotes
-        if (quoteObj.quote.length > 200) {
-            quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
-        } else {
-            quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
-        }
-    }, 300);
-}
-
-function nextQuote() {
-    setRandomQuote();
-}
-
-// Initialize with a random quote
-window.onload = setRandomQuote;
-</script>
+    </script>
 </body>
 </html>

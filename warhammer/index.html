@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoic Quotes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;500&family=Noto+Serif:wght@200;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            min-height: 100vh;
+            width: 100vw;
+            background: #fafafa;
+            font-family: 'Noto Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .quote-container {
+            padding: 2rem;
+            width: 90%;
+            max-width: 680px;
+            min-height: 200px;
+            max-height: 400px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .quote-container:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .quote-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quote-text {
+            font-family: 'Noto Serif', serif;
+            /* Smaller base size and more aggressive scaling for longer quotes */
+            font-size: clamp(1rem, 3vw, 1.6rem);
+            font-weight: 500;
+            color: #2c2c2c;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+            line-height: 1.4;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .quote-source {
+            font-family: 'Noto Sans', sans-serif;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.6s ease 0.1s forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .source-numeral {
+            font-family: 'Noto Serif', serif;
+            font-weight: 500;
+        }
+
+        /* Optional: Only show speaker for shorter quotes */
+        .quote-speaker {
+            display: none; /* Hidden by default */
+            font-family: 'Noto Sans', sans-serif;
+            color: #444;
+            font-size: 0.875rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.6s ease 0.2s forwards;
+            padding: 0 1rem;
+        }
+
+        /* Show speaker only for quotes shorter than 1000 characters */
+        .short-quote .quote-speaker {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .fade-in { animation: fadeIn 0.6s ease forwards; }
+        .fade-out { animation: fadeOut 0.3s ease forwards; }
+
+        @media (max-width: 480px) {
+            .quote-container {
+                padding: 1.5rem;
+                max-height: 450px;
+            }
+            
+            .quote-text {
+                font-size: clamp(0.875rem, 2.5vw, 1.4rem);
+                margin-bottom: 0.75rem;
+            }
+            
+            .quote-source {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-container" onclick="nextQuote()" title="Click for the truth you desire">
+        <div class="quote-content">
+            <p class="quote-text" id="quote-text"></p>
+            <p class="quote-source" id="quote-source">
+                <span class="source-numeral"></span>
+            </p>
+            <p class="quote-speaker" id="quote-speaker"></p>
+        </div>
+    </div>
+
+
+    <script>
+        // Quotes Data
+        const quotes = [
+  {
+    quote: "They shall be my finest warriors… They will be my Space Marines, and they shall know no fear.",
+    source: "The Horus Heresy Book One - Betrayal, pg. 26",
+    speaker: "The Emperor of Mankind"
+  },
+  {
+    quote: "Into the fires of battle! Unto the anvil of war!",
+    source: "Codex: Space Marines (5th Edition), pg. 26",
+    speaker: "Battle-cry of the Salamanders"
+  },
+  {
+    quote: "We march for Macragge! And we shall know no fear!",
+    source: "Ultramarines - A Warhammer 40,000 Movie",
+    speaker: "Ultramarines Battle-chant"
+  },
+  {
+    quote: "",
+    source: "",
+    speaker: ""
+  },
+  {
+    quote: "",
+    source: "",
+    speaker: ""
+  }
+];
+
+
+let currentQuoteIndex = -1;
+
+function setRandomQuote() {
+    let newIndex;
+    do {
+        newIndex = Math.floor(Math.random() * quotes.length);
+    } while (newIndex === currentQuoteIndex && quotes.length > 1);
+    
+    currentQuoteIndex = newIndex;
+    displayQuote(quotes[currentQuoteIndex]);
+}
+
+function displayQuote(quoteObj) {
+    const container = document.querySelector('.quote-container');
+    const quoteText = document.getElementById('quote-text');
+    const quoteSource = document.getElementById('quote-source');
+    const speaker = document.getElementById('quote-speaker');
+
+    // Add fade-out classes
+    [quoteText, quoteSource, speaker].forEach(el => {
+        el.classList.remove('fade-in');
+        el.classList.add('fade-out');
+    });
+
+    setTimeout(() => {
+        // Update content
+        quoteText.textContent = `"${quoteObj.quote}"`;
+        quoteSource.innerHTML = `
+            <span class="source-numeral">${quoteObj.source}</span>
+        `;
+        speaker.textContent = `Speaker: ${quoteObj.speaker}`;
+
+        // Show/hide speaker based on quote length
+        container.classList.toggle('short-quote', quoteObj.quote.length < 1000);
+
+        // Remove fade-out and add fade-in
+        [quoteText, quoteSource, speaker].forEach(el => {
+            el.classList.remove('fade-out');
+            el.classList.add('fade-in');
+        });
+
+        // Adjust font size for longer quotes
+        if (quoteObj.quote.length > 200) {
+            quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
+        } else {
+            quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
+        }
+    }, 300);
+}
+
+function nextQuote() {
+    setRandomQuote();
+}
+
+// Initialize with a random quote
+window.onload = setRandomQuote;
+</script>
+</body>
+</html>

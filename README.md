@@ -6,20 +6,21 @@ A collection of minimalist quote widgets for your Notion pages. Each collection 
 
 ## Quick Start
 
-1. Visit [notion-quotes](https://danhilse.github.io/notion-quotes/) 
+1. Visit [notion-quotes](https://ossiyama.github.io/notion-quotes/) 
 2. Click on any widget to copy its embed link
 3. Paste into Notion and select "Embed" from the formatting options.
 4. Adjust the embed height if needed
 
 ## Available Widgets
 
-- Kototama ([https://danhilse.github.io/notion-quotes/kototama](https://danhilse.github.io/notion-quotes/kototama))
-- Atomic Habits ([https://danhilse.github.io/notion-quotes/atomic-habits](https://danhilse.github.io/notion-quotes/atomic-habits))
-- Marcus Aurelius ([https://danhilse.github.io/notion-quotes/stoic](https://danhilse.github.io/notion-quotes/stoic))
-- Tao Te Ching ([https://danhilse.github.io/notion-quotes/tao](https://danhilse.github.io/notion-quotes/tao))
-- First Principles ([https://danhilse.github.io/notion-quotes/first](https://danhilse.github.io/notion-quotes/first))
-- Zen Koans ([https://danhilse.github.io/notion-quotes/koan](https://danhilse.github.io/notion-quotes/koan))
-- Cognitive Biases ([https://danhilse.github.io/notion-quotes/bias](https://danhilse.github.io/notion-quotes/bias))
+- Kototama ([https://ossiyama.github.io/notion-quotes/kototama](https://ossiyama.github.io/notion-quotes/kototama))
+- Atomic Habits ([https://ossiyama.github.io/notion-quotes/atomic-habits](https://ossiyama.github.io/notion-quotes/atomic-habits))
+- Marcus Aurelius ([https://ossiyama.github.io/notion-quotes/stoic](https://ossiyama.github.io/notion-quotes/stoic))
+- Tao Te Ching ([https://ossiyama.github.io/notion-quotes/tao](https://ossiyama.github.io/notion-quotes/tao))
+- First Principles ([https://ossiyama.github.io/notion-quotes/first](https://ossiyama.github.io/notion-quotes/first))
+- Zen Koans ([https://ossiyama.github.io/notion-quotes/koan](https://ossiyama.github.io/notion-quotes/koan))
+- Cognitive Biases ([https://ossiyama.github.io/notion-quotes/bias](https://ossiyama.github.io/notion-quotes/bias))
+- Warhammer ([https://ossiyama.github.io/notion-quotes/warhammer](https://ossiyama.github.io/notion-quotes/warhammer))
 
 ## Features
 
